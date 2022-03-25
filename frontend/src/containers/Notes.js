@@ -68,6 +68,10 @@ const [isDeleting, setIsDeleting] = useState(false);
     setIsLoading(true);
   }
   
+  function deleteNote() {
+    return API.del("notes", `/notes/${id}`);
+  }
+  
   async function handleDelete(event) {
     event.preventDefault();
   
@@ -80,6 +84,14 @@ const [isDeleting, setIsDeleting] = useState(false);
     }
   
     setIsDeleting(true);
+  
+    try {
+      await deleteNote();
+      history.push("/");
+    } catch (e) {
+      onError(e);
+      setIsDeleting(false);
+    }
   }
   
   return (
